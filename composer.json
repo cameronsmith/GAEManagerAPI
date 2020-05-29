@@ -1,0 +1,38 @@
+{
+    "name": "ukcasmith/gae-manager-api",
+    "description": "Google App Engine Manager allows customized building of app engines.",
+    "keywords": [
+        "google app engine manager api",
+        "api",
+        "ukcasmith"
+    ],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Cameron Smith"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "nikic/fast-route": "^1.2",
+        "vlucas/phpdotenv": "^2.4",
+        "slim/http": "^0.3.0",
+        "rdlowrey/auryn": "^1.4",
+        "nesbot/carbon": "^2.0.0"
+    },
+    "support": {
+        "source": "https://github.com/uk-casmith/GAEManagerAPI"
+    },
+    "autoload": {
+        "psr-4": {
+            "UKCASmith\\GAEManagerAPI\\": "src/"
+        },
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "version": "0.0.1",
+    "require-dev": {
+        "phpunit/phpunit": "^6.4"
+    }
+}
