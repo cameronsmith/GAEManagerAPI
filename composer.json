@@ -13,7 +13,6 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0",
         "nikic/fast-route": "^1.2",
         "vlucas/phpdotenv": "^2.4",
         "slim/http": "^0.3.0",

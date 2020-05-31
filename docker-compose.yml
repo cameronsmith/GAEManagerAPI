@@ -1,0 +1,28 @@
+version: "2"
+
+services:
+  nginx:
+    container_name: gae-manager-nginx
+    build:
+      context: .
+      dockerfile: .docker/docker-nginx.dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/usr/share/nginx/html
+    networks:
+      - php-network
+    links:
+      - php
+
+  php:
+    container_name: gae-manager-php
+    image: php:7-fpm
+    volumes:
+      - .:/usr/share/nginx/html
+    networks:
+      - php-network
+
+networks:
+  php-network:
+    driver: bridge
