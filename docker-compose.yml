@@ -11,9 +11,10 @@ services:
     volumes:
       - .:/usr/share/nginx/html
     networks:
-      - php-network
+      - gae-manager-network
     links:
       - php
+      - datastore
 
   php:
     container_name: gae-manager-php
@@ -21,8 +22,21 @@ services:
     volumes:
       - .:/usr/share/nginx/html
     networks:
-      - php-network
+      - gae-manager-network
+
+  datastore:
+    container_name: gae-manager-datastore
+    image: singularities/datastore-emulator
+    environment:
+      - DATASTORE_PROJECT_ID=gaemanager-api
+      - DATASTORE_LISTEN_ADDRESS=datastore:8081
+    ports:
+      - "8081:8081"
+    volumes:
+      - /opt/data
+    networks:
+      - gae-manager-network
 
 networks:
-  php-network:
+  gae-manager-network:
     driver: bridge

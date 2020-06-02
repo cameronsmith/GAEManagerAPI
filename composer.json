@@ -18,7 +18,8 @@
         "slim/http": "^0.3.0",
         "rdlowrey/auryn": "^1.4",
         "nesbot/carbon": "^2.0.0",
-        "ukcasmith/gae-client": "dev-master"
+        "ukcasmith/gae-client": "dev-master",
+        "google/cloud-datastore": "^1.11"
     },
     "repositories": [
         {

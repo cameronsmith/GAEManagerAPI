@@ -70,4 +70,13 @@ class Controller
         return http_response_code($httpCode);
     }
 
+    /**
+     * Get request.
+     *
+     * @return Request
+     */
+    protected function getRequest() {
+        return $this->obj_request;
+    }
+
 }

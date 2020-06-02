@@ -3,7 +3,7 @@
 class PingController extends Controller
 {
     /**
-     * @return \Psr\Http\Message\StreamInterface
+     * @return string
      */
     public function ping() {
         return $this->respond([
