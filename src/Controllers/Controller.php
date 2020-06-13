@@ -1,8 +1,9 @@
 <?php namespace UKCASmith\GAEManagerAPI\Controllers;
 
-use Slim\Http\Request;
+use UKCASmith\GAEManagerAPI\Http\Request;
 use Slim\Http\Response;
 use UKCASmith\GAEManagerAPI\Helpers\HttpCodes;
+use JsonSchema\Validator as JsonValidator;
 
 class Controller
 {
@@ -33,7 +34,8 @@ class Controller
      *
      * @return bool
      */
-    protected function sendJsonHeader() {
+    protected function sendJsonHeader()
+    {
         if (headers_sent()) {
             return false;
         }
@@ -46,14 +48,18 @@ class Controller
     /**
      * Return JSON OK response.
      *
-     * @param array $response
      * @param int $httpCode
+     * @param array $arr_response
      * @return string
      */
-    protected function respond(array $response, $httpCode = HttpCodes::HTTP_OK) {
+    protected function respond($httpCode = HttpCodes::HTTP_OK, array $arr_response = null)
+    {
         $this->sendHttpResponseCode($httpCode);
         $this->sendJsonHeader();
-        return json_encode($response, JSON_PRETTY_PRINT);
+        if (is_null($arr_response)) {
+            return null;
+        }
+        return json_encode($arr_response, JSON_PRETTY_PRINT);
     }
 
     /**
@@ -62,7 +68,8 @@ class Controller
      * @param $httpCode
      * @return bool|int
      */
-    protected function sendHttpResponseCode($httpCode) {
+    protected function sendHttpResponseCode($httpCode)
+    {
         if (headers_sent()) {
             return false;
         }
@@ -71,12 +78,44 @@ class Controller
     }
 
     /**
+     * Respond invalid request.
+     *
+     * @param JsonValidator $obj_validator
+     * @return string
+     */
+    protected function respondInvalidateRequest(JsonValidator $obj_validator)
+    {
+        $arr_response = [
+            'error' => 'The request could not be completed because the request is invalid',
+            'reasons' => [],
+        ];
+
+        foreach ($obj_validator->getErrors() as $arr_error) {
+            $arr_response['reasons'][] = $arr_error['message'];
+        }
+
+        return $this->respond($arr_response, HttpCodes::HTTP_BAD_REQUEST);
+    }
+
+    /**
      * Get request.
      *
      * @return Request
      */
-    protected function getRequest() {
+    protected function getRequest()
+    {
         return $this->obj_request;
+    }
+
+    /**
+     * Get JSON request body.
+     *
+     * @return \stdClass
+     */
+    protected function getJsonRequestBody() {
+        $obj_request = $this->getRequest();
+        $obj_request->getBody()->rewind();
+        return $arr_data = json_decode($obj_request->getBody()->getContents());
     }
 
 }

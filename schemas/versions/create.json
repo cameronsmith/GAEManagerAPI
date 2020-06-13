@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "version_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "version_id"
+  ]
+}

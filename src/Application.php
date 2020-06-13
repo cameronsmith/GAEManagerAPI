@@ -1,51 +1,64 @@
 <?php namespace UKCASmith\GAEManagerAPI;
 
 use FastRoute\Dispatcher;
-use UKCASmith\GAEManagerAPI\Providers;
+use Auryn\Injector;
 
 class Application
 {
-    protected $injector;
-    protected $routes;
+    /**
+     * @var Injector
+     */
+    protected $obj_injector;
+
+    /**
+     * @var Dispatcher
+     */
+    protected $obj_routes;
 
     /**
      * Application constructor.
      *
-     * @param $injector
+     * @param Injector $obj_injector
      */
-    public function __construct($injector)
+    public function __construct(Injector $obj_injector)
     {
-        $this->injector = $injector;
+        $this->obj_injector = $obj_injector;
         $this->registerProviders(Providers::APP);
     }
 
     /**
-     * addRoutes to application.
+     * Add routes to application.
      *
-     * @param $routes
+     * @param Dispatcher $obj_routes
+     * @return $this
      */
-    public function addRoutes($routes) {
-        $this->routes = $routes;
+    public function addRoutes(Dispatcher $obj_routes) {
+        $this->obj_routes = $obj_routes;
+        return $this;
     }
 
     /**
      * Run through application routes.
      */
     public function run() {
-        $request = $this->injector->make('Psr\Http\Message\ServerRequestInterface');
-        $routeInfo = $this->routes->dispatch($request->getMethod(), $request->getUri()->getPath());
+        $obj_request = $this->obj_injector->make('Psr\Http\Message\ServerRequestInterface');
+        $arr_route = $this->obj_routes->dispatch($obj_request->getMethod(), $obj_request->getUri()->getPath());
 
-        switch ($routeInfo[0]) {
+        switch ($arr_route[0]) {
             case Dispatcher::FOUND:
-                $class = $routeInfo[1][0];
-                $method = $routeInfo[1][1];
+                $str_class = $arr_route[1][0];
+                $str_method = $arr_route[1][1];
+                $arr_vars = (isset($arr_route[2]) ? $arr_route[2] : []);
+                $obj_request
+                    ->setQueryParams($arr_vars)
+                    ->setRequestClass($str_class)
+                    ->setRequestClassMethod($str_method);
 
-                $controller = $this->injector->make($class);
-                return $controller->$method();
+                $obj_controller = $this->obj_injector->make($str_class);
+                return $obj_controller->$str_method();
                 break;
             default:
                 http_response_code(404);
-                return;
                 break;
         }
     }
@@ -53,11 +66,13 @@ class Application
     /**
      * Register an interface with a class.
      *
-     * @param $interface
-     * @param $class
+     * @param $obj_interface
+     * @param $obj_class
+     * @return $this
      */
-    public function addInterfaceAlias($interface, $class) {
-        $this->injector->alias($interface, $class);
+    public function addInterfaceAlias($obj_interface, $obj_class) {
+        $this->obj_injector->alias($obj_interface, $obj_class);
+        return $this;
     }
 
     /**
@@ -66,7 +81,7 @@ class Application
      * @param $instance
      */
     public function bindSingleton($instance) {
-        $this->injector->share($instance);
+        $this->obj_injector->share($instance);
     }
 
     /**

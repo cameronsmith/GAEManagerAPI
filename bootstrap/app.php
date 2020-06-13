@@ -1,9 +1,8 @@
 <?php
-
 /**
  * Load environment file.
  */
-(new Dotenv\Dotenv(__DIR__ . '/../'))->load();
+(new Dotenv\Dotenv(ROOT_FOLDER))->load();
 
 /**
  * Boot application
@@ -13,6 +12,6 @@ $app = new UKCASmith\GAEManagerAPI\Application(new Auryn\Injector);
 /**
  * Bind singltons
  */
-$app->bindSingleton(Slim\Http\Request::createFromGlobals($_SERVER));
+$app->bindSingleton(UKCASmith\GAEManagerAPI\Http\Request::createFromGlobals($_SERVER));
 
 return $app;
