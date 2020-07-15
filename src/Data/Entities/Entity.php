@@ -2,6 +2,7 @@
 
 use Google\Cloud\Datastore\DatastoreClient;
 use Google\Cloud\Datastore\Key;
+use Google\Cloud\Datastore\Entity as GoogleEntity;
 
 abstract class Entity
 {
@@ -57,4 +58,5 @@ abstract class Entity
 
     abstract public function getEntityName();
     abstract public function getEntityFields();
+    abstract public function build(GoogleEntity $obj_record);
 }

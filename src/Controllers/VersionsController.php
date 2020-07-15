@@ -32,6 +32,17 @@ class VersionsController extends Controller
     }
 
     /**
+     * Get a record.
+     *
+     * @route /versions/{version_id}
+     * @return string
+     */
+    public function index() {
+        $arr_entities = $this->obj_repo->getAll();
+        return $this->respond( HttpCodes::HTTP_OK, $arr_entities);
+    }
+
+    /**
      * Create a version.
      *
      * @route POST /version/create
@@ -115,5 +126,37 @@ class VersionsController extends Controller
 
         $this->obj_repo->delete($obj_entity->getKey());
         return $this->respond(HttpCodes::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Update a record.
+     *
+     * @route /versions/{version_id}
+     * @return string
+     */
+    public function update() {
+        $obj_request = $this->getRequest();
+        $obj_validator = Validator::validateQueryRequest($this->getRequest());
+        if ($obj_validator->isValid() === false) {
+            return $this->respondInvalidateRequest($obj_validator);
+        }
+
+        $arr_vars = $obj_request->getQueryParams();
+
+        $obj_entity = $this->obj_repo->getByVersionId($arr_vars['version_id']);
+        if (is_null($obj_entity)) {
+            $arr_response = [
+                'error' => 'cannot locate version_id: ' . $arr_vars['version_id'],
+            ];
+            return $this->respond(HttpCodes::HTTP_NOT_FOUND, $arr_response);
+        }
+
+        $obj_vars = $this->getJsonRequestBody();
+        if (!empty($obj_vars->version_id)) {
+            $obj_entity->setVersionId($obj_vars->version_id);
+        }
+
+        $obj_entity = $this->obj_repo->update($obj_entity);
+        return $this->respond(HttpCodes::HTTP_ACCEPTED, $obj_entity->getEntityFields());
     }
 }

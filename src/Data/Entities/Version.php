@@ -1,5 +1,7 @@
 <?php namespace UKCASmith\GAEManagerAPI\Data\Entities;
 
+use Google\Cloud\Datastore\Entity as GoogleEntity;
+
 class Version extends Entity
 {
     const ENTITY_NAME = 'version';
@@ -29,5 +31,16 @@ class Version extends Entity
 
     public function getVersionId() {
         return $this->str_version_id;
+    }
+
+    public function build(GoogleEntity $obj_record)
+    {
+        $obj_key = $obj_record->key();
+        $this
+            ->setKey($obj_key)
+            ->setKeyId($obj_key->pathEndIdentifier())
+            ->setVersionId($obj_record->version_id);
+
+        return $this;
     }
 }
