@@ -1,6 +1,5 @@
 <?php namespace UKCASmith\GAEManagerAPI\Data\Entities;
 
-use Google\Cloud\Datastore\DatastoreClient;
 use Google\Cloud\Datastore\Key;
 
 abstract class Entity
@@ -55,6 +54,18 @@ abstract class Entity
         return $this->obj_key;
     }
 
-    abstract public function getEntityName();
-    abstract public function getEntityFields();
+    /**
+     * Get array of entity keys + values.
+     *
+     * @return array
+     */
+    abstract public function getArray();
+
+    /**
+     * Populate from google entity record.
+     *
+     * @param $arr_record
+     * @return $this
+     */
+    abstract public function buildFromArray($arr_record);
 }
