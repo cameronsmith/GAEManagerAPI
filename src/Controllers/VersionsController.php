@@ -32,14 +32,19 @@ class VersionsController extends Controller
     }
 
     /**
-     * Get a record.
+     * Get all records.
      *
-     * @route /versions/{version_id}
+     * @route GET /versions
      * @return string
      */
     public function index() {
         $arr_entities = $this->obj_repo->getAll();
-        return $this->respond( HttpCodes::HTTP_OK, $arr_entities);
+        $arr_response = [];
+        /** @var VersionEntity $obj_entity */
+        foreach($arr_entities as $obj_entity) {
+            $arr_response[] = $obj_entity->getArray();
+        }
+        return $this->respond( HttpCodes::HTTP_OK, $arr_response);
     }
 
     /**
@@ -69,15 +74,15 @@ class VersionsController extends Controller
 
         $obj_entity = new VersionEntity;
         $obj_entity->setVersionId($str_version_id);
-        $this->obj_repo->insert($obj_entity);
+        $obj_entity = $this->obj_repo->insert($obj_entity);
 
-        return $this->respond(HttpCodes::HTTP_CREATED, $obj_entity->getEntityFields());
+        return $this->respond(HttpCodes::HTTP_CREATED, $obj_entity->getArray());
     }
 
     /**
      * Get a record.
      *
-     * @route /versions/{version_id}
+     * @route GET /versions/{version_id}
      * @return string
      */
     public function show() {
@@ -97,14 +102,14 @@ class VersionsController extends Controller
             return $this->respond(HttpCodes::HTTP_NOT_FOUND, $arr_response);
         }
 
-        return $this->respond( HttpCodes::HTTP_OK, $obj_entity->getEntityFields());
+        return $this->respond( HttpCodes::HTTP_OK, $obj_entity->getArray());
 
     }
 
     /**
      * Delete a record.
      *
-     * @route /versions/{version_id}
+     * @route DELETE /versions/{version_id}
      * @return string
      */
     public function delete() {
@@ -157,6 +162,6 @@ class VersionsController extends Controller
         }
 
         $obj_entity = $this->obj_repo->update($obj_entity);
-        return $this->respond(HttpCodes::HTTP_ACCEPTED, $obj_entity->getEntityFields());
+        return $this->respond(HttpCodes::HTTP_ACCEPTED, $obj_entity->getArray());
     }
 }

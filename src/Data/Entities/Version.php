@@ -1,45 +1,56 @@
 <?php namespace UKCASmith\GAEManagerAPI\Data\Entities;
 
-use Google\Cloud\Datastore\Entity as GoogleEntity;
-
 class Version extends Entity
 {
-    const ENTITY_NAME = 'version';
-
+    /**
+     * @var string.
+     */
     protected $str_version_id;
 
     /**
-     * @return string
-     */
-    public function getEntityName() {
-        return static::ENTITY_NAME;
-    }
-
-    /**
+     * Get array.
+     *
      * @return array
      */
-    public function getEntityFields() {
+    public function getArray() {
         return [
+            'key_id' => $this->getKeyId(),
             'version_id' => $this->getVersionId(),
         ];
     }
 
+    /**
+     * Set version ID.
+     *
+     * @param $str_version_id
+     * @return $this
+     */
     public function setVersionId($str_version_id) {
         $this->str_version_id = $str_version_id;
         return $this;
     }
 
+    /**
+     * Get version ID.
+     *
+     * @return string
+     */
     public function getVersionId() {
         return $this->str_version_id;
     }
 
-    public function build(GoogleEntity $obj_record)
+    /**
+     * Build from google entity record.
+     *
+     * @param $arr_record
+     * @return $this
+     */
+    public function buildFromArray($arr_record)
     {
-        $obj_key = $obj_record->key();
         $this
-            ->setKey($obj_key)
-            ->setKeyId($obj_key->pathEndIdentifier())
-            ->setVersionId($obj_record->version_id);
+            ->setKey($arr_record['key'])
+            ->setKeyId($arr_record['key_id'])
+            ->setVersionId($arr_record['version_id']);
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 use Google\Cloud\Datastore\DatastoreClient;
 use UKCASmith\GAEManagerAPI\Data\Entities\Version as VersionEntity;
+use Google\Cloud\Datastore\EntityInterface as GoogleEntity;
 
 class Version
 {
@@ -21,6 +22,11 @@ class Version
         $this->obj_client = $obj_client;
     }
 
+    /**
+     * Get all records.
+     *
+     * @return array
+     */
     public function getAll() {
         $obj_query = $this->obj_client->query()->kind(static::KIND);
 
@@ -33,10 +39,8 @@ class Version
         $obj_result->rewind();
         $arr_entities = [];
         foreach($obj_result as $obj_record) {
-            $obj_entity = new VersionEntity;
-            $obj_entity->build($obj_record);
-
-            $arr_entities[] = $obj_entity->getEntityFields();
+            $arr_record = $this->getArrayFromGoogleEntity($obj_record);
+            $arr_entities[] = (new VersionEntity)->buildFromArray($arr_record);
         }
         return $arr_entities;
     }
@@ -45,34 +49,35 @@ class Version
      * Insert.
      *
      * @param VersionEntity $obj_entity
-     * @return string
+     * @return VersionEntity
      */
     public function insert(VersionEntity $obj_entity) {
         $obj_repo_entity = $this->obj_client->entity(static::KIND);
-        foreach($obj_entity->getEntityFields() as $str_key => $mix_value) {
+        foreach($obj_entity->getArray() as $str_key => $mix_value) {
             $obj_repo_entity[$str_key] = $mix_value;
         }
 
-        return $this->obj_client->insert($obj_repo_entity);
+        $this->obj_client->insert($obj_repo_entity);
+        $arr_record = $this->getArrayFromGoogleEntity($obj_repo_entity);
+        return (new VersionEntity)->buildFromArray($arr_record);
     }
 
     /**
      * Update.
      *
      * @param VersionEntity $obj_entity
-     * @return string
+     * @return VersionEntity
      */
     public function update(VersionEntity $obj_entity) {
         $obj_key = $this->obj_client->key(static::KIND, $obj_entity->getKeyId());
         $obj_repo_entity = $this->obj_client->lookup($obj_key);
-        foreach($obj_entity->getEntityFields() as $str_key => $mix_value) {
+        foreach($obj_entity->getArray() as $str_key => $mix_value) {
             $obj_repo_entity[$str_key] = $mix_value;
         }
 
         $this->obj_client->update($obj_repo_entity);
-
-        $obj_entity = new VersionEntity;
-        return $obj_entity->build($obj_repo_entity);
+        $arr_record = $this->getArrayFromGoogleEntity($obj_repo_entity);
+        return (new VersionEntity)->buildFromArray($arr_record);
     }
 
     /**
@@ -94,14 +99,8 @@ class Version
 
         $obj_result->rewind();
         $obj_record = $obj_result->current();
-        $obj_key = $obj_record->key();
-        $obj_entity = new VersionEntity;
-        $obj_entity
-            ->setKey($obj_key)
-            ->setKeyId($obj_key->pathEndIdentifier())
-            ->setVersionId($obj_record->version_id);
-
-        return $obj_entity;
+        $arr_record = $this->getArrayFromGoogleEntity($obj_record);
+        return (new VersionEntity)->buildFromArray($arr_record);
     }
 
     /**
@@ -111,5 +110,27 @@ class Version
      */
     public function delete($str_key) {
         $this->obj_client->delete($str_key);
+    }
+
+    /**
+     * Get an array from the google entity record.
+     *
+     * @param GoogleEntity $obj_record
+     * @return array
+     */
+    protected function getArrayFromGoogleEntity(GoogleEntity $obj_record) {
+        $arr_record = [];
+        $obj_key = $obj_record->key();
+        $arr_record['key'] = $obj_key;
+        $arr_record['key_id'] = $obj_key->pathEndIdentifier();
+
+        foreach($obj_record->get() as $str_key => $mix_value) {
+            if ($str_key === 'key' || $str_key === 'key_id') {
+                continue;
+            }
+            $arr_record[$str_key] = $mix_value;
+        }
+
+        return $arr_record;
     }
 }
