@@ -1,9 +1,9 @@
-<?php namespace UKCASmith\GAEManagerAPI\Controllers;
+<?php namespace CameronSmith\GAEManagerAPI\Controllers;
 
-use UKCASmith\GAEManagerAPI\Data\Entities\Version as VersionEntity;
-use UKCASmith\GAEManagerAPI\Data\Repository\Datastore\Version as VersionRepo;
-use UKCASmith\GAEManagerAPI\Helpers\HttpCodes;
-use UKCASmith\GAEManagerAPI\Helpers\Validator;
+use CameronSmith\GAEManagerAPI\Data\Entities\Version as VersionEntity;
+use CameronSmith\GAEManagerAPI\Data\Repository\Datastore\Version as VersionRepo;
+use CameronSmith\GAEManagerAPI\Helpers\HttpCodes;
+use CameronSmith\GAEManagerAPI\Helpers\Validator;
 
 class VersionsController extends Controller
 {

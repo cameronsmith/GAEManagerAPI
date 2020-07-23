@@ -1,7 +1,7 @@
-<?php namespace UKCASmith\GAEManagerAPI\Data\Repository\Datastore;
+<?php namespace CameronSmith\GAEManagerAPI\Data\Repository\Datastore;
 
 use Google\Cloud\Datastore\DatastoreClient;
-use UKCASmith\GAEManagerAPI\Data\Entities\Version as VersionEntity;
+use CameronSmith\GAEManagerAPI\Data\Entities\Version as VersionEntity;
 use Google\Cloud\Datastore\EntityInterface as GoogleEntity;
 
 class Version

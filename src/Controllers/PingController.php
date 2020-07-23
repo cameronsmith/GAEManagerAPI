@@ -1,4 +1,4 @@
-<?php namespace UKCASmith\GAEManagerAPI\Controllers;
+<?php namespace CameronSmith\GAEManagerAPI\Controllers;
 
 class PingController extends Controller
 {

@@ -1,8 +1,8 @@
-<?php namespace UKCASmith\GAEManagerAPI;
+<?php namespace CameronSmith\GAEManagerAPI;
 
 use FastRoute\Dispatcher;
 use Auryn\Injector;
-use UKCASmith\GAEManagerAPI\Http\RequestResponseAwareInterface;
+use CameronSmith\GAEManagerAPI\Http\RequestResponseAwareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Application

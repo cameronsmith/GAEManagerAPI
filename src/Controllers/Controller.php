@@ -1,8 +1,8 @@
-<?php namespace UKCASmith\GAEManagerAPI\Controllers;
+<?php namespace CameronSmith\GAEManagerAPI\Controllers;
 
-use UKCASmith\GAEManagerAPI\Http\RequestResponseAwareInterface;
-use UKCASmith\GAEManagerAPI\Http\RequestResponseTrait;
-use UKCASmith\GAEManagerAPI\Helpers\HttpCodes;
+use CameronSmith\GAEManagerAPI\Http\RequestResponseAwareInterface;
+use CameronSmith\GAEManagerAPI\Http\RequestResponseTrait;
+use CameronSmith\GAEManagerAPI\Helpers\HttpCodes;
 use JsonSchema\Validator as JsonValidator;
 
 class Controller implements RequestResponseAwareInterface

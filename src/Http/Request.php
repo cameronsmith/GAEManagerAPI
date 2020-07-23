@@ -1,10 +1,10 @@
-<?php namespace UKCASmith\GAEManagerAPI\Http;
+<?php namespace CameronSmith\GAEManagerAPI\Http;
 
 use Slim\Http\Request as SlimRequest;
 
 class Request extends SlimRequest
 {
-    const CONTROLLER_NAMESPACE = 'UKCASmith\\GAEManagerAPI\\Controllers\\';
+    const CONTROLLER_NAMESPACE = 'CameronSmith\\GAEManagerAPI\\Controllers\\';
 
     /**
      * @var string
