@@ -1,4 +1,4 @@
-<?php namespace UKCASmith\GAEManagerAPI\Exceptions;
+<?php namespace CameronSmith\GAEManagerAPI\Exceptions;
 
 class ValidationFailed extends \Exception
 {

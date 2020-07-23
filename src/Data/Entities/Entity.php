@@ -1,4 +1,4 @@
-<?php namespace UKCASmith\GAEManagerAPI\Data\Entities;
+<?php namespace CameronSmith\GAEManagerAPI\Data\Entities;
 
 use Google\Cloud\Datastore\Key;
 

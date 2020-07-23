@@ -6,7 +6,7 @@
  * Time: 21:15
  */
 
-namespace UKCASmith\GAEManagerAPI\Http;
+namespace CameronSmith\GAEManagerAPI\Http;
 
 use Slim\Http\Response;
 

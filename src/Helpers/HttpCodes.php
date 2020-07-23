@@ -1,4 +1,4 @@
-<?php namespace UKCASmith\GAEManagerAPI\Helpers;
+<?php namespace CameronSmith\GAEManagerAPI\Helpers;
 
 class HttpCodes
 {

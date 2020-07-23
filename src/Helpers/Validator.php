@@ -1,7 +1,7 @@
-<?php namespace UKCASmith\GAEManagerAPI\Helpers;
+<?php namespace CameronSmith\GAEManagerAPI\Helpers;
 
-use UKCASmith\GAEManagerAPI\Http\Request;
-use UKCASmith\GAEManagerAPI\Exceptions\ValidationFailed;
+use CameronSmith\GAEManagerAPI\Http\Request;
+use CameronSmith\GAEManagerAPI\Exceptions\ValidationFailed;
 use JsonSchema\Validator as JsonValidator;
 
 class Validator

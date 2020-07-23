@@ -1,6 +1,6 @@
-<?php namespace UKCASmith\GAEManagerAPI\Controllers;
+<?php namespace CameronSmith\GAEManagerAPI\Controllers;
 
-use UKCASmith\GAEManagerAPI\Helpers\HttpCodes;
+use CameronSmith\GAEManagerAPI\Helpers\HttpCodes;
 
 class AppEngineController extends Controller
 {

@@ -7,17 +7,17 @@
 /**
  * Boot application
  */
-$app = new UKCASmith\GAEManagerAPI\Application(new Auryn\Injector);
+$app = new CameronSmith\GAEManagerAPI\Application(new Auryn\Injector);
 
 /**
  * Register providers.
  */
-$app->registerProviders(UKCASmith\GAEManagerAPI\Providers::APP);
+$app->registerProviders(CameronSmith\GAEManagerAPI\Providers::APP);
 
 /**
  * Bind singltons
  */
-$app->bindSingleton(UKCASmith\GAEManagerAPI\Http\Request::createFromGlobals($_SERVER));
+$app->bindSingleton(CameronSmith\GAEManagerAPI\Http\Request::createFromGlobals($_SERVER));
 
 /**
  * Register setter injectors

@@ -1,9 +1,9 @@
-<?php namespace UKCASmith\GAEManagerAPI;
+<?php namespace CameronSmith\GAEManagerAPI;
 
 class Providers
 {
     const APP = [
-        'Psr\Http\Message\ServerRequestInterface' => 'UKCASmith\GAEManagerAPI\Http\Request',
+        'Psr\Http\Message\ServerRequestInterface' => 'CameronSmith\GAEManagerAPI\Http\Request',
         'Psr\Http\Message\ResponseInterface' => 'Slim\Http\Response',
     ];
 }
