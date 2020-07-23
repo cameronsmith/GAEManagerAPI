@@ -1,33 +1,13 @@
 <?php namespace UKCASmith\GAEManagerAPI\Controllers;
 
-use UKCASmith\GAEManagerAPI\Http\Request;
-use Slim\Http\Response;
+use UKCASmith\GAEManagerAPI\Http\RequestResponseAwareInterface;
+use UKCASmith\GAEManagerAPI\Http\RequestResponseTrait;
 use UKCASmith\GAEManagerAPI\Helpers\HttpCodes;
 use JsonSchema\Validator as JsonValidator;
 
-class Controller
+class Controller implements RequestResponseAwareInterface
 {
-    /**
-     * @var Request
-     */
-    protected $obj_request;
-
-    /**
-     * @var Response
-     */
-    protected $obj_response;
-
-    /**
-     * PingController constructor.
-     *
-     * @param Request $request
-     * @param Response $response
-     */
-    public function __construct(Request $request, Response $response)
-    {
-        $this->obj_request = $request;
-        $this->obj_response = $response;
-    }
+    use RequestResponseTrait;
 
     /**
      * Send JSON headers.
@@ -95,16 +75,6 @@ class Controller
         }
 
         return $this->respond($arr_response, HttpCodes::HTTP_BAD_REQUEST);
-    }
-
-    /**
-     * Get request.
-     *
-     * @return Request
-     */
-    protected function getRequest()
-    {
-        return $this->obj_request;
     }
 
     /**

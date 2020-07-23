@@ -2,6 +2,8 @@
 
 use FastRoute\Dispatcher;
 use Auryn\Injector;
+use UKCASmith\GAEManagerAPI\Http\RequestResponseAwareInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Application
 {
@@ -23,7 +25,6 @@ class Application
     public function __construct(Injector $obj_injector)
     {
         $this->obj_injector = $obj_injector;
-        $this->registerProviders(Providers::APP);
     }
 
     /**
@@ -85,11 +86,24 @@ class Application
     }
 
     /**
+     * Register setter injectors.
+     */
+    public function registerSetterInjectors() {
+        $this->obj_injector
+            ->prepare(
+                RequestResponseAwareInterface::class,
+                function(RequestResponseAwareInterface $obj_needs_item, Injector $obj_di) {
+                    $obj_needs_item->setRequest($obj_di->make(ServerRequestInterface::class));
+                }
+            );
+    }
+
+    /**
      * Register application providers with the injector.
      *
      * @param array $providers
      */
-    protected function registerProviders(array $providers) {
+    public function registerProviders(array $providers) {
         foreach($providers as $interface => $class) {
             $this->addInterfaceAlias($interface, $class);
         }
