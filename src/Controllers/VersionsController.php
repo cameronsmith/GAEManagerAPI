@@ -1,11 +1,9 @@
 <?php namespace UKCASmith\GAEManagerAPI\Controllers;
 
-use Slim\Http\Response;
 use UKCASmith\GAEManagerAPI\Data\Entities\Version as VersionEntity;
 use UKCASmith\GAEManagerAPI\Data\Repository\Datastore\Version as VersionRepo;
 use UKCASmith\GAEManagerAPI\Helpers\HttpCodes;
 use UKCASmith\GAEManagerAPI\Helpers\Validator;
-use UKCASmith\GAEManagerAPI\Http\Request;
 
 class VersionsController extends Controller
 {
@@ -17,18 +15,11 @@ class VersionsController extends Controller
     /**
      * VersionsController constructor.
      *
-     * @param Request $request
-     * @param Response $response
      * @param VersionRepo $obj_version_repo
      */
-    public function __construct(
-        Request $request,
-        Response $response,
-        VersionRepo $obj_version_repo
-    )
+    public function __construct(VersionRepo $obj_version_repo)
     {
         $this->obj_repo = $obj_version_repo;
-        parent::__construct($request, $response);
     }
 
     /**
