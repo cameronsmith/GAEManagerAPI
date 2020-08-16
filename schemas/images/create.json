@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "bucket": {
+      "type": "string"
+    },
+    "filename": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "bucket",
+    "filename"
+  ]
+}

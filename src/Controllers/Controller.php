@@ -74,7 +74,7 @@ class Controller implements RequestResponseAwareInterface
             $arr_response['reasons'][] = $arr_error['message'];
         }
 
-        return $this->respond($arr_response, HttpCodes::HTTP_BAD_REQUEST);
+        return $this->respond(HttpCodes::HTTP_BAD_REQUEST, $arr_response);
     }
 
     /**
@@ -87,5 +87,4 @@ class Controller implements RequestResponseAwareInterface
         $obj_request->getBody()->rewind();
         return $arr_data = json_decode($obj_request->getBody()->getContents());
     }
-
 }

@@ -15,12 +15,12 @@ trait RequestResponseTrait
     /**
      * @var Request
      */
-    protected $obj_request;
+    private $obj_request;
 
     /**
      * @var Response
      */
-    protected $obj_response;
+    private $obj_response;
 
     /**
      * Set request object.
