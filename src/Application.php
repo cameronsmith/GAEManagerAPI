@@ -3,6 +3,8 @@
 use FastRoute\Dispatcher;
 use Auryn\Injector;
 use CameronSmith\GAEManagerAPI\Http\RequestResponseAwareInterface;
+use CameronSmith\GAEManagerAPI\Services\Datastore\ClientAwareInterface;
+use Google\Cloud\Datastore\DatastoreClient;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Application
@@ -94,6 +96,14 @@ class Application
                 RequestResponseAwareInterface::class,
                 function(RequestResponseAwareInterface $obj_needs_item, Injector $obj_di) {
                     $obj_needs_item->setRequest($obj_di->make(ServerRequestInterface::class));
+                }
+            );
+
+        $this->obj_injector
+            ->prepare(
+                ClientAwareInterface::class,
+                function(ClientAwareInterface $obj_needs_item, Injector $obj_di) {
+                    $obj_needs_item->setDatastoreClient($obj_di->make(DatastoreClient::class));
                 }
             );
     }

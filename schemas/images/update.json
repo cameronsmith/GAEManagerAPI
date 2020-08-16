@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "key_id": {
+      "type": "string"
+    },
+    "bucket": {
+      "type": "string"
+    },
+    "filename": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "key_id"
+  ]
+}

@@ -1,23 +1,25 @@
 <?php namespace CameronSmith\GAEManagerAPI\Data\Repository\Datastore;
 
+use CameronSmith\GAEManagerAPI\Data\Entities\Image as ImageEntity;
 use CameronSmith\GAEManagerAPI\Data\Entities\Entity;
-use CameronSmith\GAEManagerAPI\Data\Entities\Version as VersionEntity;
 
-class Version extends Datastore
+class Image extends Datastore
 {
-    const KIND = 'versions';
+    const KIND = 'images';
 
     /**
-     * Get by version ID.
+     * Get by bucket and filename.
      *
-     * @param $str_version_id
+     * @param string $str_bucket
+     * @param string $str_filename
      * @return Entity|null
      */
-    public function getByVersionId($str_version_id) {
+    public function getByBucketAndFilename($str_bucket, $str_filename) {
         $obj_client = $this->getDatastoreClient();
         $obj_query = $obj_client->query()
             ->kind($this->getKind())
-            ->filter('version_id', '=', $str_version_id);
+            ->filter('bucket', '=', trim($str_bucket))
+            ->filter('filename', '=', trim($str_filename));
 
         return $this->getBy($obj_query);
     }
@@ -38,6 +40,6 @@ class Version extends Datastore
      */
     protected function getNewEntity()
     {
-        return new VersionEntity;
+        return new ImageEntity;
     }
 }
