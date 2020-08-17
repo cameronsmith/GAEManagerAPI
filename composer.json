@@ -39,6 +39,10 @@
             "tests/"
         ]
     },
+    "scripts": {
+        "datastore_emulator": "gcloud alpha emulators datastore start --host-port=localhost:8980 --no-store-on-disk --consistency=1.0",
+        "test": "./vendor/bin/phpunit"
+    },
     "version": "0.0.1",
     "require-dev": {
         "phpunit/phpunit": "^6.4"
