@@ -9,14 +9,23 @@ language: php
 php:
   - 7.2
 
+before_install:
+  - wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-217.0.0-linux-x86_64.tar.gz --quiet
+  - tar -xf ./google-cloud-sdk-217.0.0-linux-x86_64.tar.gz
+  - ./google-cloud-sdk/install.sh -q
+  - ./google-cloud-sdk/bin/gcloud components install cloud-datastore-emulator -q
+  - ./google-cloud-sdk/bin/gcloud components install beta -q
+  - sudo apt-get update && sudo apt-get install default-jre -y
+
 install:
-   - cp .env.example .env
-   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+  - cp .env.example .env
 
 before_script:
-   - composer self-update
+  - export DATASTORE_PROJECT_ID=gaemanager-api
+  - export DATASTORE_EMULATOR_HOST=localhost:8980
+  - composer install
+  - ./google-cloud-sdk/bin/gcloud beta emulators datastore start --host-port=localhost:8980 --no-store-on-disk --consistency=1.0 > /dev/null
 
 script:
-   - gcloud beta emulators datastore start &
-   - $(gcloud beta emulators datastore env-init)
-   - php vendor/bin/phpunit
+  - sleep 20s
+  - ./vendor/bin/phpunit
