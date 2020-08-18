@@ -17,5 +17,5 @@ composer run datastore_emulator --timeout=0
 
 You can now run the tests locally by using the command:
 ```bash
-composer run phpunit
+./vendor/bin/phpunit
 ```
