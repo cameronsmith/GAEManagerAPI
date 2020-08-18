@@ -1,0 +1,22 @@
+dist: trusty
+
+apt:
+    packages:
+    - google-cloud-sdk
+
+language: php
+
+php:
+  - 7.0
+
+install:
+   - cp .env.example .env
+   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+
+before_script:
+   - composer self-update
+
+script:
+   - gcloud beta emulators datastore start &
+   - $(gcloud beta emulators datastore env-init)
+   - php vendor/bin/phpunit
