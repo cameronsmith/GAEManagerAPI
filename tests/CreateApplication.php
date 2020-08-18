@@ -1,4 +1,4 @@
-<?php
+<?php namespace CameronSmith\GAEManagerAPI\Test;
 
 use CameronSmith\GAEManagerAPI\Application;
 use CameronSmith\GAEManagerAPI\Helpers\Path;

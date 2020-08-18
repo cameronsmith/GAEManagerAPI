@@ -33,11 +33,9 @@
     },
     "autoload": {
         "psr-4": {
-            "CameronSmith\\GAEManagerAPI\\": "src/"
-        },
-        "classmap": [
-            "tests/"
-        ]
+            "CameronSmith\\GAEManagerAPI\\": "src/",
+            "CameronSmith\\GAEManagerAPI\\Test\\": "tests/"
+        }
     },
     "scripts": {
         "datastore_emulator": "gcloud alpha emulators datastore start --host-port=localhost:8980 --no-store-on-disk --consistency=1.0",
@@ -45,6 +43,7 @@
     },
     "version": "0.0.1",
     "require-dev": {
-        "phpunit/phpunit": "^6.4"
+        "phpunit/phpunit": "^6.4",
+        "fzaninotto/faker": "^1.9"
     }
 }

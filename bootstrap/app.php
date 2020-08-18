@@ -17,7 +17,9 @@ $app->registerProviders(CameronSmith\GAEManagerAPI\Providers::APP);
 /**
  * Bind singltons
  */
-$app->bindSingleton(CameronSmith\GAEManagerAPI\Http\Request::createFromGlobals($_SERVER));
+$app
+    ->bindSingleton(CameronSmith\GAEManagerAPI\Http\Request::createFromGlobals($_SERVER))
+    ->bindSingleton(CameronSmith\GAEManagerAPI\Http\Response::class);
 
 /**
  * Register setter injectors

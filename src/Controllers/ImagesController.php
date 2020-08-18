@@ -1,23 +1,23 @@
 <?php namespace CameronSmith\GAEManagerAPI\Controllers;
 
 use CameronSmith\GAEManagerAPI\Helpers\HttpCodes;
-use CameronSmith\GAEManagerAPI\Data\Repository\Datastore\Image as ImageRepo;
+use CameronSmith\GAEManagerAPI\Data\Repository\ImageInterface;
 use CameronSmith\GAEManagerAPI\Data\Entities\Image as ImageEntity;
 use CameronSmith\GAEManagerAPI\Helpers\Validator;
 
 class ImagesController extends Controller
 {
     /**
-     * @var ImageRepo
+     * @var ImageInterface
      */
     protected $obj_repo;
 
     /**
      * ImagesController constructor.
      *
-     * @param ImageRepo $obj_image_repo
+     * @param ImageInterface $obj_image_repo
      */
-    public function __construct(ImageRepo $obj_image_repo)
+    public function __construct(ImageInterface $obj_image_repo)
     {
         $this->obj_repo = $obj_image_repo;
     }

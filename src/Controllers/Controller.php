@@ -3,6 +3,7 @@
 use CameronSmith\GAEManagerAPI\Http\RequestResponseAwareInterface;
 use CameronSmith\GAEManagerAPI\Http\RequestResponseTrait;
 use CameronSmith\GAEManagerAPI\Helpers\HttpCodes;
+use CameronSmith\GAEManagerAPI\Http\Response;
 use JsonSchema\Validator as JsonValidator;
 
 class Controller implements RequestResponseAwareInterface
@@ -28,18 +29,27 @@ class Controller implements RequestResponseAwareInterface
     /**
      * Return JSON OK response.
      *
-     * @param int $httpCode
+     * @param int $int_http_code
      * @param array $arr_response
-     * @return string
+     * @return Response
      */
-    protected function respond($httpCode = HttpCodes::HTTP_OK, array $arr_response = null)
+    protected function respond($int_http_code = HttpCodes::HTTP_OK, array $arr_response = null)
     {
-        $this->sendHttpResponseCode($httpCode);
-        $this->sendJsonHeader();
+        $obj_response = $this->getResponse();
+        $obj_response->setStatusCode($int_http_code);
+        $obj_response->setHeaders([
+            'pragma: no-cache',
+            'cache-control: no-store',
+            'content-type: application/json; charset=UTF-8',
+        ]);
+        //$this->sendHttpResponseCode($httpCode);
+        //$this->sendJsonHeader();
         if (is_null($arr_response)) {
-            return null;
+            return $obj_response;
         }
-        return json_encode($arr_response, JSON_PRETTY_PRINT);
+        $obj_response->setBody(json_encode($arr_response, JSON_PRETTY_PRINT));
+
+        return $obj_response;
     }
 
     /**

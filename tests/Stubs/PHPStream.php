@@ -1,4 +1,4 @@
-<?php
+<?php namespace CameronSmith\GAEManagerAPI\Test\Stubs;
 
 class PHPStream
 {
