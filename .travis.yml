@@ -24,7 +24,7 @@ before_script:
   - export DATASTORE_PROJECT_ID=gaemanager-api
   - export DATASTORE_EMULATOR_HOST=localhost:8980
   - composer install
-  - ./google-cloud-sdk/bin/gcloud beta emulators datastore start --host-port=localhost:8980 --no-store-on-disk --consistency=1.0 > /dev/null
+  - ./google-cloud-sdk/bin/gcloud beta emulators datastore start --host-port=localhost:8980 --no-store-on-disk --consistency=1.0 > /dev/null 2>&1 &
 
 script:
   - sleep 20s
