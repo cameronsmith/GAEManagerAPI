@@ -2,8 +2,9 @@
 
 use CameronSmith\GAEManagerAPI\Data\Entities\Image as ImageEntity;
 use CameronSmith\GAEManagerAPI\Data\Entities\Entity;
+use CameronSmith\GAEManagerAPI\Data\Repository\ImageInterface;
 
-class Image extends Datastore
+class Image extends Datastore implements ImageInterface
 {
     const KIND = 'images';
 

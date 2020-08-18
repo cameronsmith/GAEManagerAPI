@@ -21,6 +21,6 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 $routes = require_once __DIR__ . '/../router/route.php';
 
 $app->addRoutes($routes);
-echo $app->run();
+echo $app->run()->getOutput();
 
 exit();

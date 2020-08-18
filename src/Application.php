@@ -1,10 +1,13 @@
 <?php namespace CameronSmith\GAEManagerAPI;
 
+use CameronSmith\GAEManagerAPI\Helpers\HttpCodes;
+use CameronSmith\GAEManagerAPI\Http\Response;
 use FastRoute\Dispatcher;
 use Auryn\Injector;
 use CameronSmith\GAEManagerAPI\Http\RequestResponseAwareInterface;
 use CameronSmith\GAEManagerAPI\Services\Datastore\ClientAwareInterface;
 use Google\Cloud\Datastore\DatastoreClient;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Application
@@ -41,7 +44,9 @@ class Application
     }
 
     /**
-     * Run through application routes.
+     * Run application.
+     *
+     * @return Response
      */
     public function run() {
         $obj_request = $this->obj_injector->make('Psr\Http\Message\ServerRequestInterface');
@@ -58,12 +63,15 @@ class Application
                     ->setRequestClassMethod($str_method);
 
                 $obj_controller = $this->obj_injector->make($str_class);
-                return $obj_controller->$str_method();
+                $obj_response = $obj_controller->$str_method();
                 break;
             default:
-                http_response_code(404);
+                $obj_response = $this->obj_injector->make('Psr\Http\Message\ResponseInterface');
+                $obj_response->setHttpCode(HttpCodes::HTTP_NOT_FOUND);
                 break;
         }
+
+        return $obj_response;
     }
 
     /**
@@ -82,9 +90,11 @@ class Application
      * Bind a singleton or overwrite singleton.
      *
      * @param $instance
+     * @return $this
      */
     public function bindSingleton($instance) {
         $this->obj_injector->share($instance);
+        return $this;
     }
 
     /**
@@ -96,6 +106,7 @@ class Application
                 RequestResponseAwareInterface::class,
                 function(RequestResponseAwareInterface $obj_needs_item, Injector $obj_di) {
                     $obj_needs_item->setRequest($obj_di->make(ServerRequestInterface::class));
+                    $obj_needs_item->setResponse($obj_di->make(ResponseInterface::class));
                 }
             );
 
@@ -117,6 +128,15 @@ class Application
         foreach($providers as $interface => $class) {
             $this->addInterfaceAlias($interface, $class);
         }
+    }
+
+    /**
+     * Get the injector.
+     *
+     * @return Injector
+     */
+    public function getInjector() {
+        return $this->obj_injector;
     }
 
 }

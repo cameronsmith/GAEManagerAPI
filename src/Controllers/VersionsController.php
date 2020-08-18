@@ -1,23 +1,24 @@
 <?php namespace CameronSmith\GAEManagerAPI\Controllers;
 
 use CameronSmith\GAEManagerAPI\Data\Entities\Version as VersionEntity;
-use CameronSmith\GAEManagerAPI\Data\Repository\Datastore\Version as VersionRepo;
+use CameronSmith\GAEManagerAPI\Data\Repository\VersionInterface;
 use CameronSmith\GAEManagerAPI\Helpers\HttpCodes;
+use CameronSmith\GAEManagerAPI\Helpers\ErrorCodes;
 use CameronSmith\GAEManagerAPI\Helpers\Validator;
 
 class VersionsController extends Controller
 {
     /**
-     * @var VersionRepo
+     * @var VersionInterface
      */
     protected $obj_repo;
 
     /**
      * VersionsController constructor.
      *
-     * @param VersionRepo $obj_version_repo
+     * @param VersionInterface $obj_version_repo
      */
-    public function __construct(VersionRepo $obj_version_repo)
+    public function __construct(VersionInterface $obj_version_repo)
     {
         $this->obj_repo = $obj_version_repo;
     }
@@ -59,6 +60,7 @@ class VersionsController extends Controller
                 HttpCodes::HTTP_BAD_REQUEST,
                 [
                     'error' => 'The version ' . $str_version_id . ' already exists.',
+                    'code' => ErrorCodes::DUPLICATE,
                 ]
             );
         }
@@ -89,6 +91,7 @@ class VersionsController extends Controller
         if (is_null($obj_entity)) {
             $arr_response = [
                 'error' => 'cannot locate version_id: ' . $arr_vars['version_id'],
+                'code' => ErrorCodes::NOT_FOUND,
             ];
             return $this->respond(HttpCodes::HTTP_NOT_FOUND, $arr_response);
         }
@@ -116,6 +119,7 @@ class VersionsController extends Controller
         if (is_null($obj_entity)) {
             $arr_response = [
                 'error' => 'cannot locate version_id: ' . $arr_vars['version_id'],
+                'code' => ErrorCodes::NOT_FOUND,
             ];
             return $this->respond(HttpCodes::HTTP_NOT_FOUND, $arr_response);
         }
@@ -143,6 +147,7 @@ class VersionsController extends Controller
         if (is_null($obj_entity)) {
             $arr_response = [
                 'error' => 'cannot locate version_id: ' . $arr_vars['version_id'],
+                'code' => ErrorCodes::NOT_FOUND,
             ];
             return $this->respond(HttpCodes::HTTP_NOT_FOUND, $arr_response);
         }

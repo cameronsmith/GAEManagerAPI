@@ -2,8 +2,9 @@
 
 use CameronSmith\GAEManagerAPI\Data\Entities\Entity;
 use CameronSmith\GAEManagerAPI\Data\Entities\Version as VersionEntity;
+use CameronSmith\GAEManagerAPI\Data\Repository\VersionInterface;
 
-class Version extends Datastore
+class Version extends Datastore implements VersionInterface
 {
     const KIND = 'versions';
 

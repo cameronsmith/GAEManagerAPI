@@ -1,8 +1,10 @@
-<?php
+<?php namespace CameronSmith\GAEManagerAPI\Test;
 
 use CameronSmith\GAEManagerAPI\Application;
+use CameronSmith\GAEManagerAPI\Http\Response;
 use PHPUnit\Framework\TestCase;
 use CameronSmith\GAEManagerAPI\Http\Request;
+use CameronSmith\GAEManagerAPI\Test\Stubs\PHPStream;
 
 abstract class BaseTest extends TestCase
 {
@@ -12,7 +14,9 @@ abstract class BaseTest extends TestCase
      * HTTP Methods
      */
     const POST = 'POST';
+    const PUT = 'PUT';
     const GET = 'GET';
+    const DELETE = 'DELETE';
 
     /**
      * @var Application
@@ -34,14 +38,12 @@ abstract class BaseTest extends TestCase
      * @param string $str_url
      * @param array $arr_body
      * @param array $arr_headers
-     * @return mixed
+     * @return Response
      */
     protected function get($str_url, $arr_body, $arr_headers = []) {
         $str_url .= $this->arrayToUrlRequest($arr_body);
         $this->createRequest(self::GET, [], $str_url, $arr_headers);
-        $str_response = $this->obj_app->run();
-        $str_json_response = json_decode($str_response, true);
-        return (json_last_error() == JSON_ERROR_NONE ? $str_json_response : $str_response);
+        return $this->obj_app->run();
     }
 
     /**
@@ -50,11 +52,36 @@ abstract class BaseTest extends TestCase
      * @param string $str_url
      * @param array $arr_body
      * @param array $arr_headers
-     * @return mixed
+     * @return Response
      */
     public function post($str_url, $arr_body = [], $arr_headers = []) {
         $this->createRequest(self::POST, $arr_body, $str_url, $arr_headers);
-        return json_decode($this->obj_app->run(), true);
+        return $this->obj_app->run();
+    }
+
+    /**
+     * Make a put request to the application.
+     *
+     * @param string $str_url
+     * @param array $arr_body
+     * @param array $arr_headers
+     * @return Response
+     */
+    public function put($str_url, $arr_body = [], $arr_headers = []) {
+        $this->createRequest(self::PUT, $arr_body, $str_url, $arr_headers);
+        return $this->obj_app->run();
+    }
+
+    /**
+     * Make a put request to the application.
+     *
+     * @param string $str_url
+     * @param array $arr_headers
+     * @return Response
+     */
+    public function delete($str_url, $arr_headers = []) {
+        $this->createRequest(self::DELETE, [], $str_url, $arr_headers);
+        return $this->obj_app->run();
     }
 
     /**
@@ -120,4 +147,15 @@ abstract class BaseTest extends TestCase
         stream_wrapper_restore("php");
     }
 
+    /**
+     * Make object from Dependency Injector.
+     *
+     * Note: This would normally be an anti-pattern but because we are within tests...it's okay...maybe?
+     *
+     * @param string $str_class_name
+     * @return mixed
+     */
+    protected function injectorMake($str_class_name) {
+        return $this->obj_app->getInjector()->make($str_class_name);
+    }
 }

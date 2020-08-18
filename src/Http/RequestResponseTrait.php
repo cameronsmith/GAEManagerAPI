@@ -8,8 +8,6 @@
 
 namespace CameronSmith\GAEManagerAPI\Http;
 
-use Slim\Http\Response;
-
 trait RequestResponseTrait
 {
     /**
