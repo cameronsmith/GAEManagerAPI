@@ -1,6 +1,8 @@
 # Google App Engine Manager API
 Google App Engine Manager allows customized building of app engines.
 
+[![Build Status](https://travis-ci.org/cameronsmith/GAEManagerAPI.svg?branch=master)](https://travis-ci.org/cameronsmith/GAEManagerAPI)
+
 ### Testing
 
 You'll need datastore emulator installed to run the integration tests. If you do not have the emulator already installed 
